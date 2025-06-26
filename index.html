@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WIFY test</title>
+</head>
+<body>
+  <h2>
+    <b>WIFY JSON form test</b>
+</h2>
+  <form id="form">
+    <div id="fields">
+
+    </div>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    
+    const jsonData = [
+      {
+        "key": "user_name",
+        "label": "Name",
+        "type": "text",
+        "maxLength": "50"
+      },
+      {
+        "key": "mobile_no",
+        "label": "Mobile number",
+        "type": "mobile_number"
+      },
+      {
+        "key": "email",
+        "label": "Email",
+        "type": "email"
+      }
+    ];
+
+    const container = document.getElementById('fields');
+
+    jsonData.forEach(item => {
+        console.log(item)
+      const label = document.createElement('label');
+      label.textContent = item.label + ": ";
+      container.appendChild(label);
+
+      const input = document.createElement('input');
+      input.name = item.key;
+        input.id = item.key;
+
+      if (item.type === "text") {
+        input.type = "text";
+        if (item.maxLength) {
+            input.maxLength = item.maxLength;
+        }
+        input.placeholder = "Enter " + item.label;
+      } else if (item.type === "mobile_number") {
+        input.type = "tel";
+        input.pattern = "[0-9]{10}";
+        input.maxLength = 10;
+        input.placeholder = "Enter Mobile number";
+      } else if (item.type === "email") {
+        input.type = "email";
+        input.placeholder = "Enter Email";
+      }
+
+      container.appendChild(document.createElement('br'));
+      container.appendChild(input);
+      container.appendChild(document.createElement('br'));
+    });
+
+    document.getElementById('form').addEventListener('submit', function(e) {
+      e.preventDefault();
+// debugger
+     const nameInput = document.getElementById('user_name');
+      const mobileInput = document.getElementById('mobile_no');
+      const emailInput = document.getElementById('email');
+
+       const name = nameInput.value.trim();
+      const mobile = mobileInput.value.trim();
+      const email = emailInput.value.trim();
+
+      if (name === '') {
+        alert('Name is required');
+        return;
+      }
+
+      if (!/^\d{10}$/.test(mobile)) {
+        alert('Mobile number must be 10 digits');
+        return;
+      }
+
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+        alert('Invalid email format');
+        return;
+      }
+
+      alert('Submitted successfully');
+      document.getElementById("myForm").reset();
+    });
+  </script>
+</body>
+</html>
